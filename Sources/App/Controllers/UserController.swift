@@ -24,7 +24,7 @@ final class UserController {
             return try req.content.decode(UserForm.self).flatMap { userForm in
                 user.username = userForm.username
                 return user.save(on: req).map { _ in
-                    req.redirect(to: "/users")
+                    return req.redirect(to: "/users")
                 }
             }
         }
