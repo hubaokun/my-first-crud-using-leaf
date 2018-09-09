@@ -13,13 +13,11 @@ public func configure(
     try routes(router)
     services.register(router, as: Router.self)
 
-    let myService = NIOServerConfig.default(port: 8008)
-    services.register(myService)
-
-    try services.register(LeafProvider())
-    try services.register(FluentSQLiteProvider())
-
+    let leafProvider = LeafProvider()
+    try services.register(leafProvider)
     config.prefer(LeafRenderer.self, for: ViewRenderer.self)
+
+    try services.register(FluentSQLiteProvider())
 
     var databases = DatabasesConfig()
     try databases.add(database: SQLiteDatabase(storage: .memory), as: .sqlite)
